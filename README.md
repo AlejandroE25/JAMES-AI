@@ -1,3 +1,7 @@
+install the requirements by typing in the `command pip install -r requirements.txt`
+
+
+
 # Implementation of a Contextual Chatbot in PyTorch.  
 Simple chatbot implementation with PyTorch. 
 
