@@ -55,7 +55,9 @@ while True:
             if tag == intent["tag"]:
                 botResponse = random.choice(intent['responses'])
                 print(f"{bot_name}: {random.choice(intent['responses'])}")
+
                 engine.say(botResponse)
+                engine.runAndWait()
 
     else:
         print(f"{bot_name}: I do not understand...")
