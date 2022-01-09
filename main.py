@@ -69,6 +69,8 @@ while True:
             if tag == intent["tag"]:
                 botResponse = random.choice(intent['responses'])
             if tag == "quit":
+                botResponse = "Goodbye for now"
+                print(botResponse)
                 engine.say(botResponse)
                 engine.runAndWait()
                 exit()
@@ -84,15 +86,26 @@ while True:
                 botResponse = f'Here is what I found for {search_term} on google'
 
     else:
+
+        i = -1
+        query = ''
+        while i < len(sentence)-1:
+            i += 1
+            query += sentence[i]
+            query += ' '
+
+
+        print(query)
+
         try:
-            botResponse[1] = wikipedia.summary(sentence[0], sentences=2)
-            botResponse[0] = next(wolframClient.query(sentence[0]).results).text
+            botResponse[0] = wikipedia.summary(query, sentences=2)
+            botResponse[1] = next(wolframClient.query(query).results).text
         except wikipedia.exceptions.DisambiguationError:
-            botResponse = next(wolframClient.query(sentence[0]).results).text
+            botResponse = next(wolframClient.query(sentence).results).text
         except wikipedia.exceptions.PageError:
-            botResponse = next(wolframClient.query(sentence[0]).results).text
+            botResponse = next(wolframClient.query(query).results).text
         except:
-            botResponse = f"I couldn't find a good result for {sentence}"
+            botResponse = f"I couldn't find a good result for {query}.  Try using the \'search google for\' command"
 
     print(f"{bot_name}: {botResponse}")
     engine.say(botResponse)

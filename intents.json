@@ -5,8 +5,6 @@
       "patterns": [
         "Hi",
         "Hey",
-        "How are you",
-        "Is anyone there?",
         "Hello",
         "Good day"
       ],
@@ -69,7 +67,7 @@
     },
     {
       "tag": "quit",
-      "patterns": ["quit", "Close the program", "shut down for now", "quit for now","shut down"],
+      "patterns": ["quit", "Close the program", "shut down for now", "quit for now","shut down", "shut off"," See you later", "Power off", "power down"],
       "responses": ["Good-Bye for now!","See you soon!","As you wish!"]
     },
     {
