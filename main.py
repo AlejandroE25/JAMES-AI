@@ -25,6 +25,10 @@ with open('intents.json', 'r') as json_data:
 FILE = "data.pth"
 data = torch.load(FILE)
 
+def openURL(url):
+    webbrowser.get().open(url)
+
+
 input_size = data["input_size"]
 hidden_size = data["hidden_size"]
 output_size = data["output_size"]
@@ -75,9 +79,8 @@ while True:
                     n += 1
                     search_term += sentence[n]
                     search_term += ' '
-
                 url = f"https://google.com/search?q={search_term}"
-                webbrowser.get().open(url)
+                openURL(url)
                 botResponse = f'Here is what I found for {search_term} on google'
 
     else:
