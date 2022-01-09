@@ -73,6 +73,11 @@
       "responses": ["Good-Bye for now!","See you soon!","As you wish!"]
     },
     {
+      "tag": "search Google",
+      "patterns": ["search for", "search google for", "search online for", "Find google results for", "find results for"],
+      "responses": ["Sure, give me a second", "right away", "give me a bit", "As you wish"]
+    },
+    {
       "tag": "delivery",
       "patterns": [
         "How long does delivery take?",

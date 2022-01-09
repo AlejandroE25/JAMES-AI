@@ -3,6 +3,13 @@ import json
 import pyttsx3
 import discord
 import asyncio
+import wikipedia
+import webbrowser
+
+import wolframalpha
+
+wolframClient = wolframalpha.Client("5LKAYP-7HAK325VV6")
+
 from discord.ext import commands
 
 import torch
@@ -40,8 +47,6 @@ print("Let's chat! (type 'quit' to exit)")
 while True:
     # sentence = "do you use credit cards?"
     sentence = input("You: ")
-    if sentence == "quit":
-        exit()
 
     sentence = tokenize(sentence)
     X = bag_of_words(sentence, all_words)
@@ -55,16 +60,37 @@ while True:
 
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    if prob.item() > 0.75:
+    if prob.item() > 0.99:
         for intent in intents['intents']:
             if tag == intent["tag"]:
                 botResponse = random.choice(intent['responses'])
-                print(f"{bot_name}: {botResponse}")
+            if tag == "quit":
+                engine.say(botResponse)
+                engine.runAndWait()
+                exit()
+            if tag == "search Google":
+                n = 2
+                search_term = ''
+                while n < len(sentence) - 1:
+                    n += 1
+                    search_term += sentence[n]
+                    search_term += ' '
 
-
+                url = f"https://google.com/search?q={search_term}"
+                webbrowser.get().open(url)
+                botResponse = f'Here is what I found for {search_term} on google'
 
     else:
-        botResponse = "I do not understand."
-        print(f"{bot_name}: {botResponse}")
+        try:
+            botResponse[1] = wikipedia.summary(sentence[0], sentences=2)
+            botResponse[0] = next(wolframClient.query(sentence[0]).results).text
+        except wikipedia.exceptions.DisambiguationError:
+            botResponse = next(wolframClient.query(sentence[0]).results).text
+        except wikipedia.exceptions.PageError:
+            botResponse = next(wolframClient.query(sentence[0]).results).text
+        except:
+            botResponse = f"I couldn't find a good result for {sentence}"
+
+    print(f"{bot_name}: {botResponse}")
     engine.say(botResponse)
     engine.runAndWait()
