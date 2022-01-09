@@ -2,6 +2,7 @@ import random
 import json
 import pyttsx3
 
+
 import torch
 
 from model import NeuralNet
@@ -28,7 +29,11 @@ model.eval()
 
 engine = pyttsx3.init()
 voices =  engine.getProperty('voices')
-engine.setProperty('voice', voices[2].id)
+rate = engine.getProperty('rate')
+engine.setProperty('voice', voices[0].id)
+engine.setProperty('rate', 175)
+
+
 
 bot_name = "J.A.M.E.S."  #Just A More Entitled System
 print("Let's chat! (type 'quit' to exit)")
@@ -36,7 +41,7 @@ while True:
     # sentence = "do you use credit cards?"
     sentence = input("You: ")
     if sentence == "quit":
-        break
+        exit()
 
     sentence = tokenize(sentence)
     X = bag_of_words(sentence, all_words)
@@ -54,10 +59,11 @@ while True:
         for intent in intents['intents']:
             if tag == intent["tag"]:
                 botResponse = random.choice(intent['responses'])
-                print(f"{bot_name}: {random.choice(intent['responses'])}")
-
-                engine.say(botResponse)
-                engine.runAndWait()
-
+                print(f"{bot_name}: {botResponse}")
+   
     else:
-        print(f"{bot_name}: I do not understand...")
+        botResponse = "I do not understand."
+        print(f"{bot_name}: {botResponse}")
+        engine.say
+    engine.say(botResponse)
+    engine.runAndWait()
