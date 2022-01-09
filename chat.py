@@ -1,5 +1,6 @@
 import random
 import json
+import pyttsx3
 
 import torch
 
@@ -25,7 +26,11 @@ model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
-bot_name = "Sam"
+engine = pyttsx3.init()
+voices =  engine.getProperty('voices')
+engine.setProperty('voice', voices[2].id)
+
+bot_name = "J.A.M.E.S."  #Just A More Entitled System
 print("Let's chat! (type 'quit' to exit)")
 while True:
     # sentence = "do you use credit cards?"
@@ -48,6 +53,9 @@ while True:
     if prob.item() > 0.75:
         for intent in intents['intents']:
             if tag == intent["tag"]:
+                botResponse = random.choice(intent['responses'])
                 print(f"{bot_name}: {random.choice(intent['responses'])}")
+                engine.say(botResponse)
+
     else:
         print(f"{bot_name}: I do not understand...")
