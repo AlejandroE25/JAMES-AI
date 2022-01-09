@@ -1,7 +1,9 @@
 import random
 import json
 import pyttsx3
-
+import discord
+import asyncio
+from discord.ext import commands
 
 import torch
 
@@ -28,14 +30,12 @@ model.load_state_dict(model_state)
 model.eval()
 
 engine = pyttsx3.init()
-voices =  engine.getProperty('voices')
+voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
 engine.setProperty('voice', voices[0].id)
 engine.setProperty('rate', 175)
 
-
-
-bot_name = "J.A.M.E.S."  #Just A More Entitled System
+bot_name = "J.A.M.E.S."  # Just A More Entitled System
 print("Let's chat! (type 'quit' to exit)")
 while True:
     # sentence = "do you use credit cards?"
@@ -60,10 +60,11 @@ while True:
             if tag == intent["tag"]:
                 botResponse = random.choice(intent['responses'])
                 print(f"{bot_name}: {botResponse}")
-   
+
+
+
     else:
         botResponse = "I do not understand."
         print(f"{bot_name}: {botResponse}")
-        engine.say
     engine.say(botResponse)
     engine.runAndWait()

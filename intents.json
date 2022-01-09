@@ -58,6 +58,21 @@
       ]
     },
     {
+      "tag": "impression",
+      "patterns": ["Do an impression", "Do a voice", "Do Mr Krabs' Voice", "Sound like somebody","Make yourself sound like somebody", "Do an impression of someone"],
+      "responses": ["I can't do that yet", "I'm to shy", "Not right now, but maybe in the future", "No thank you, I like the way I sound now"]
+    },
+    {
+      "tag": "insult",
+      "patterns": ["Why are you this way", "Why are you like this", "Why can't you be better","No one loves you"],
+      "responses": ["You know what? Watch this", "You know what? Forget you, I'm shutting down"]
+    },
+    {
+      "tag": "quit",
+      "patterns": ["quit", "Close the program", "shut down for now", "quit for now","shut down"],
+      "responses": ["Good-Bye for now!","See you soon!","As you wish!"]
+    },
+    {
       "tag": "delivery",
       "patterns": [
         "How long does delivery take?",
