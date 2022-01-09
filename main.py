@@ -5,17 +5,15 @@ import discord
 import asyncio
 import wikipedia
 import webbrowser
-
+import time
+import os
 import wolframalpha
-
-wolframClient = wolframalpha.Client("5LKAYP-7HAK325VV6")
-
 from discord.ext import commands
-
 import torch
-
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
+
+wolframClient = wolframalpha.Client("5LKAYP-7HAK325VV6")
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -24,6 +22,7 @@ with open('intents.json', 'r') as json_data:
 
 FILE = "data.pth"
 data = torch.load(FILE)
+
 
 def openURL(url):
     webbrowser.get().open(url)
@@ -46,8 +45,21 @@ rate = engine.getProperty('rate')
 engine.setProperty('voice', voices[0].id)
 engine.setProperty('rate', 175)
 
+os.system("cls")
+
 bot_name = "J.A.M.E.S."  # Just A More Entitled System
-print("Let's chat! (type 'quit' to exit)")
+
+botOnlineMessage = "J.A.M.E.S is online"
+
+print(botOnlineMessage)
+
+engine.say("JAMES is online")
+engine.runAndWait()
+
+time.sleep(2)
+
+os.system("cls")
+
 while True:
     # sentence = "do you use credit cards?"
     sentence = input("You: ")
@@ -74,6 +86,7 @@ while True:
                 engine.say(botResponse)
                 engine.runAndWait()
                 exit()
+            '''
             if tag == "search Google":
                 n = 2
                 search_term = ''
@@ -84,16 +97,15 @@ while True:
                 url = f"https://google.com/search?q={search_term}"
                 openURL(url)
                 botResponse = f'Here is what I found for {search_term} on google'
-
+            '''
     else:
 
         i = -1
         query = ''
-        while i < len(sentence)-1:
+        while i < len(sentence) - 1:
             i += 1
             query += sentence[i]
             query += ' '
-
 
         print(query)
 
@@ -105,7 +117,10 @@ while True:
         except wikipedia.exceptions.PageError:
             botResponse = next(wolframClient.query(query).results).text
         except:
-            botResponse = f"I couldn't find a good result for {query}.  Try using the \'search google for\' command"
+            url = f"https://google.com/search?q={query}"
+            openURL(url)
+            botResponse = f'Here is what I found for {query} on google'
+
 
     print(f"{bot_name}: {botResponse}")
     engine.say(botResponse)
