@@ -1,5 +1,6 @@
 import random
 import json
+import speech_recognition
 import pyttsx3
 import discord
 import asyncio
@@ -42,7 +43,7 @@ model.eval()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
-engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[2].id)
 engine.setProperty('rate', 175)
 
 os.system("cls")
@@ -86,7 +87,7 @@ while True:
                 engine.say(botResponse)
                 engine.runAndWait()
                 exit()
-            '''
+
             if tag == "search Google":
                 n = 2
                 search_term = ''
@@ -97,7 +98,7 @@ while True:
                 url = f"https://google.com/search?q={search_term}"
                 openURL(url)
                 botResponse = f'Here is what I found for {search_term} on google'
-            '''
+
     else:
 
         i = -1
@@ -117,9 +118,7 @@ while True:
         except wikipedia.exceptions.PageError:
             botResponse = next(wolframClient.query(query).results).text
         except:
-            url = f"https://google.com/search?q={query}"
-            openURL(url)
-            botResponse = f'Here is what I found for {query} on google'
+            botResponse = "I can't understand that"
 
 
     print(f"{bot_name}: {botResponse}")

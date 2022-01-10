@@ -6,7 +6,10 @@
         "Hi",
         "Hey",
         "Hello",
-        "Good day"
+        "Good day",
+        "Good Morning",
+        "Good Afternoon",
+        "Good Evening"
       ],
       "responses": [
         "Hey :-)",
