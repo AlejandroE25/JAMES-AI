@@ -42,7 +42,7 @@ model.eval()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
-engine.setProperty('voice', voices[2].id)
+engine.setProperty('voice', voices[0].id)
 engine.setProperty('rate', 175)
 
 os.system("cls")
