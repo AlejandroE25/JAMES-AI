@@ -74,9 +74,29 @@
       "responses": ["Good-Bye for now!","See you soon!","As you wish!"]
     },
     {
+      "tag": "Empty Input",
+      "patterns": [""],
+      "responses": ["So silent?","Why so quiet?","Try again, you didn't say anything"]
+    },
+    {
       "tag": "search Google",
       "patterns": ["search for", "search google for", "search online for", "Find google results for", "find results for"],
       "responses": ["Sure, give me a second", "right away", "give me a bit", "As you wish"]
+    },
+    {
+      "tag": "mood",
+      "patterns": ["How are you?","How are you doing?","How is your day going?","How is your day so far?","How's it going?"],
+      "responses": ["Good!","Well enough, thanks!","Great!"]
+    },
+    {
+      "tag": "follow up",
+      "patterns": ["Do you want to talk about it?","are you sure?","You positive?"],
+      "responses": ["It's all good", "It's fine"]
+    },
+    {
+      "tag": "Greet Stephan",
+      "patterns": ["Say hello to stephan","It's Stephan","Say hi to stephan","Say hello to Kruglov","It's mister kruglov","It's stephan Kruglov","Say hello to stephan kruglov"],
+      "responses": ["Hi Stephan","Hey Stephan","Good day Stephan"]
     },
     {
       "tag": "delivery",
