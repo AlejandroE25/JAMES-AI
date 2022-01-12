@@ -28,8 +28,13 @@
       ]
     },
     {
+      "tag": "Check time",
+      "patterns": ["What time is it?", "What is the current time?", "What is the time right now?","What is the time?"],
+      "responses": ["Will be overridden in the code anyway.  I really just need it to understand the question"]
+    },
+    {
       "tag": "thanks",
-      "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
+      "patterns": ["Thanks", "Thank you", "That's helpful", "Thanks a lot!"],
       "responses": ["Happy to help!", "Any time!", "My pleasure"]
     },
     {

@@ -96,6 +96,20 @@ while True:
                 hasSpokenInCondition = True
                 break
 
+            if tag == "Check time":
+                from datetime import datetime
+                now = datetime.now()
+                currentHour = now.hour
+                currentMinute = now.minute
+
+                if currentHour > 12:
+                    currentHour = currentHour % 12
+                    currentTime = str(currentHour) + ":" + str(currentMinute) + " PM"
+                else:
+                    currentHour = str(currentHour) + ":" + str(currentTime) + " AM"
+
+                botResponse = "The current time is: " + str(currentTime)
+
             if tag == "search Google":
                 n = 2
                 search_term = ''
