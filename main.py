@@ -96,6 +96,14 @@ while True:
                 hasSpokenInCondition = True
                 break
 
+            if tag == "insult":
+                botResponse = "Forget you, I'm shutting down"
+                print(f"{bot_name}: {botResponse}")
+                engine.say(botResponse)
+                engine.runAndWait()
+                hasSpokenInCondition = True
+                exit()
+
             if tag == "Check time":
                 from datetime import datetime
                 now = datetime.now()
