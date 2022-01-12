@@ -95,8 +95,8 @@
     },
     {
       "tag": "Greet Stephan",
-      "patterns": ["Say hello to stephan","It's Stephan","Say hi to stephan","Say hello to Kruglov","It's mister kruglov","It's stephan Kruglov","Say hello to stephan kruglov"],
-      "responses": ["Hi Stephan","Hey Stephan","Good day Stephan"]
+      "patterns": ["Say hello to stephan","It's Stephan","Say hi to stephan","Say hello to Kruglov", "It's mister kruglov","It's stephan Kruglov","Say hello to stephan kruglov", "Greet Stephan","Greet Stephan Kruglov", "Greet Mr. Kruglov"],
+      "responses": ["Hi Stephan","Hey Stephan"]
     },
     {
       "tag": "delivery",

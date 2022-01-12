@@ -64,6 +64,8 @@ while True:
     # sentence = "do you use credit cards?"
     sentence = input("You: ")
 
+    hasSpokenInCondition = False
+
     sentence = tokenize(sentence)
     X = bag_of_words(sentence, all_words)
     X = X.reshape(1, X.shape[0])
@@ -87,6 +89,14 @@ while True:
                 engine.runAndWait()
                 exit()
 
+            if tag == "Greet Stephan":
+                botResponse = "Hey Stephan"
+                print(f"{bot_name}: {botResponse}")
+                engine.say("Hey Steff on")
+                engine.runAndWait()
+                hasSpokenInCondition = True
+                break
+
             if tag == "search Google":
                 n = 2
                 search_term = ''
@@ -95,8 +105,11 @@ while True:
                     search_term += sentence[n]
                     search_term += ' '
                 url = f"https://google.com/search?q={search_term}"
-                openURL(url)
                 botResponse = f'Here is what I found for {search_term} on google'
+                openURL(url)
+                break
+
+
 
     else:
 
@@ -119,7 +132,7 @@ while True:
         except:
             botResponse = "I can't understand that"
 
-
-    print(f"{bot_name}: {botResponse}")
-    engine.say(botResponse)
-    engine.runAndWait()
+    if not hasSpokenInCondition:
+        print(f"{bot_name}: {botResponse}")
+        engine.say(botResponse)
+        engine.runAndWait()
