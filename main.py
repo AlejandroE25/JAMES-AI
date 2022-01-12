@@ -49,7 +49,7 @@ os.system("cls")
 
 bot_name = "J.A.M.E.S."  # Just A More Entitled System
 
-botOnlineMessage = "J.A.M.E.S is online"
+botOnlineMessage = f"{bot_name} is online"
 
 print(botOnlineMessage)
 

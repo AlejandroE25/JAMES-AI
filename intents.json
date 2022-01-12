@@ -70,7 +70,7 @@
     },
     {
       "tag": "quit",
-      "patterns": ["quit", "Close the program", "shut down for now", "quit for now","shut down", "shut off"," See you later", "Power off", "power down"],
+      "patterns": ["quit", "Close the program", "shut down for now", "quit for now","shut down", "shut off"," See you later", "Power off", "power down", "go to sleep", "sleep time", "bed time"],
       "responses": ["Good-Bye for now!","See you soon!","As you wish!"]
     },
     {
