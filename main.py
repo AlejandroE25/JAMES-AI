@@ -1,15 +1,14 @@
-import random
 import json
-import pyttsx3
-import discord
-import asyncio
-import wikipedia
-import webbrowser
-import time
 import os
-import wolframalpha
-from discord.ext import commands
+import random
+import time
+import webbrowser
+
+import pyttsx3
 import torch
+import wikipedia
+import wolframalpha
+
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 
