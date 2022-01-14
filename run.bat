@@ -1,1 +1,3 @@
-CMD /k python main.py
+python main.py
+
+exit
