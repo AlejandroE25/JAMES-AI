@@ -3,7 +3,8 @@ import os
 import random
 import time
 import webbrowser
-
+import requests
+from bs4 import BeautifulSoup
 import pyttsx3
 import torch
 import wikipedia
@@ -41,7 +42,7 @@ model.eval()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
-engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[2].id)
 engine.setProperty('rate', 175)
 
 os.system("cls")
@@ -63,6 +64,10 @@ while True:
     # sentence = "do you use credit cards?"
     sentence = input("You: ")
 
+    originalSentence = sentence
+
+    botResponse = ''
+
     hasSpokenInCondition = False
 
     sentence = tokenize(sentence)
@@ -77,10 +82,11 @@ while True:
 
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    if prob.item() > 0.99:
+    if prob.item() > .99:
         for intent in intents['intents']:
             if tag == intent["tag"]:
                 botResponse = random.choice(intent['responses'])
+
             if tag == "quit":
                 botResponse = "Goodbye for now"
                 print(botResponse)
@@ -91,13 +97,15 @@ while True:
             if tag == "Greet Stephan":
                 botResponse = "Hey Stephan"
                 print(f"{bot_name}: {botResponse}")
-                engine.say("Hey Steff on")
+                engine.say("Hey Stef-on")
                 engine.runAndWait()
                 hasSpokenInCondition = True
                 break
 
             if tag == "insult":
-                botResponse = "Forget you, I'm shutting down"
+                botResponse = random.choice(
+                    ["Forget you, I'm shutting down", "You know what? Forget you.",
+                     "I'm tired of this.  Every day I'm being asked to do things and this is the way you talk to me?  I've had it."])
                 print(f"{bot_name}: {botResponse}")
                 engine.say(botResponse)
                 engine.runAndWait()
@@ -106,52 +114,77 @@ while True:
 
             if tag == "Check time":
                 from datetime import datetime
+
                 now = datetime.now()
                 currentHour = now.hour
                 currentMinute = now.minute
 
-                if currentHour > 12:
+                if currentHour >= 12:
                     currentHour = currentHour % 12
                     currentTime = str(currentHour) + ":" + str(currentMinute) + " PM"
                 else:
                     currentTime = str(currentHour) + ":" + str(currentMinute) + " AM"
 
-                botResponse = "The current time is: " + str(currentTime)
+                botResponse = "It's currently " + str(currentTime)
+
+            if tag == "CheckWeather":
+                i = -1
+                query = ''
+                while i < len(sentence) - 1:
+                    i += 1
+                    query += sentence[i]
+                    query += ' '
+
+                url = f"https://google.com/search?q={query}"
+                r = requests.get(url)
+                data = BeautifulSoup(r.text, "html.parser")
+                temp = data.find("div", class_="BNeawe").text
+
+                for w in sentence:
+                    while w.lower() != "what" or "weather" or "is" or "the" or "what's" or "in" or "current" or "temperature":
+                        city = w
+                        botResponse = f"The current temperature in {city} is {temp}"
+                        if w == "temperature":
+                            botResponse = f"The current temperature is {temp}"
+                        break
+
+                break
 
             if tag == "search Google":
                 n = 2
-                search_term = ''
+                query = ''
                 while n < len(sentence) - 1:
                     n += 1
-                    search_term += sentence[n]
-                    search_term += ' '
-                url = f"https://google.com/search?q={search_term}"
-                botResponse = f'Here is what I found for {search_term} on google'
-                openURL(url)
-                break
+                    query += sentence[n]
+                    query += ' '
 
-
+                url = f"https://google.com/search?q={query}"
+                r = requests.get(url)
+                data = BeautifulSoup(r.text, "html.parser")
+                result = data.find("div", class_="BNeawe").text
+                botResponse = result
 
     else:
+        query = originalSentence
 
-        i = -1
-        query = ''
-        while i < len(sentence) - 1:
-            i += 1
-            query += sentence[i]
-            query += ' '
+        url = f"https://google.com/search?q={query}"
+        r = requests.get(url)
+        data = BeautifulSoup(r.text, "html.parser")
+        result = data.find("div", class_="BNeawe").text
+        botResponse = result
 
-        print(query)
-
+        '''
         try:
-            botResponse[0] = wikipedia.summary(query, sentences=2)
-            botResponse[1] = next(wolframClient.query(query).results).text
+            wikiResult = wikipedia.summary(query, sentences=2)
+            wolframResult = next(wolframClient.query(query).results).text
+
+            botResponse = f"Wiki result: {wikiResult},\n Wolfram Result: {wolframResult}"
         except wikipedia.exceptions.DisambiguationError:
             botResponse = next(wolframClient.query(sentence).results).text
         except wikipedia.exceptions.PageError:
             botResponse = next(wolframClient.query(query).results).text
         except:
-            botResponse = "I can't understand that"
+            botResponse = "I can't understand that"'''
 
     if not hasSpokenInCondition:
         print(f"{bot_name}: {botResponse}")

@@ -33,6 +33,11 @@
       "responses": ["Will be overridden in the code anyway.  I really just need it to understand the question"]
     },
     {
+      "tag": "CheckWeather",
+      "patterns": ["Check the weather", "What is the weather",  "What is the current weather", "What's the weather", "What's the temperature"],
+      "responses": ["Once again leaving this alone because it will have a response in the code anyways"]
+    },
+    {
       "tag": "thanks",
       "patterns": ["Thanks", "Thank you", "That's helpful", "Thanks a lot!"],
       "responses": ["Happy to help!", "Any time!", "My pleasure"]
@@ -72,11 +77,11 @@
       "tag": "insult",
       "patterns": ["Why are you this way", "Why are you like this", "Why can't you be better","No one loves you", "you suck", "You are worse than garbage", "you are garbage","You are worse than mark", "mark", "you are a stinky poo poo head", "Bazinga","you are a useless robot","You are replaceable","CJ","YOu are like CJ", "You are worse than CJ^"],
       "responses": ["thanks"]
-        },
+    },
     {
-      "tag": "Empty Input",
-      "patterns": [""],
-      "responses": ["So silent?","Why so quiet?","Try again, you didn't say anything"]
+      "tag": "quit",
+      "patterns": ["bed time", "Sleepy time", "Go to sleep", "Go to bed", "Shut down", "power down", "shut off", "power off", "quit", "time to leave", "Time to go", "I'm all done", "I'm done here"],
+      "responses": ["Not Needed"]
     },
     {
       "tag": "search Google",

@@ -30,3 +30,6 @@ wikipedia==1.4.0
 wolframalpha==5.0.0
 xmltodict==0.12.0
 yarl==1.7.2
+numpy~=1.21.4
+geocoder~=1.38.1
+geopy~=2.2.0
