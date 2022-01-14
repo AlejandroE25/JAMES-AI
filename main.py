@@ -114,7 +114,7 @@ while True:
                     currentHour = currentHour % 12
                     currentTime = str(currentHour) + ":" + str(currentMinute) + " PM"
                 else:
-                    currentHour = str(currentHour) + ":" + str(currentTime) + " AM"
+                    currentTime = str(currentHour) + ":" + str(currentMinute) + " AM"
 
                 botResponse = "The current time is: " + str(currentTime)
 
