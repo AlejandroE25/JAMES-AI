@@ -62,7 +62,7 @@ os.system("cls")
 
 while True:
     # sentence = "do you use credit cards?"
-    sentence = input("You: ")
+    sentence = input("You: ")  # TODO add voice recognition
 
     originalSentence = sentence
 
@@ -172,6 +172,9 @@ while True:
         data = BeautifulSoup(r.text, "html.parser")
         result = data.find("div", class_="BNeawe").text
         botResponse = result
+
+
+        # TODO: Fix Wiki and WolframAlpha queries.  Apparently, the word parser was removing numbers from the entry.
 
         '''
         try:
