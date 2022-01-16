@@ -4,6 +4,7 @@ import random
 import time
 import webbrowser
 import requests
+import speech_recognition as sr
 from bs4 import BeautifulSoup
 import pyttsx3
 import torch
@@ -60,15 +61,36 @@ time.sleep(2)
 
 os.system("cls")
 
+recogniser = sr.Recognizer()
+
 while True:
-    # sentence = "do you use credit cards?"
-    sentence = input("You: ")  # TODO add voice recognition
-
-    originalSentence = sentence
-
     botResponse = ''
 
     hasSpokenInCondition = False
+
+    print("You: ", end='')
+    try:
+        with sr.Microphone() as mic:
+            recogniser.adjust_for_ambient_noise(mic, duration=0.2)
+            audio = recogniser.listen(mic)
+
+            textOutput = recogniser.recognize_google(audio)
+            textOutput = textOutput.lower()
+            print(textOutput)
+    except:
+        botResponse = "I couldn\'t understand that. Try typing it in instead."
+
+
+
+        engine.say(botResponse)
+        engine.runAndWait()
+        hasSpokenInCondition = True
+
+        textOutput = input("Try typing it in instead. \nYou: ")
+
+    sentence = textOutput
+
+    originalSentence = sentence
 
     sentence = tokenize(sentence)
     X = bag_of_words(sentence, all_words)
@@ -172,7 +194,6 @@ while True:
         data = BeautifulSoup(r.text, "html.parser")
         result = data.find("div", class_="BNeawe").text
         botResponse = result
-
 
         # TODO: Fix Wiki and WolframAlpha queries.  Apparently, the word parser was removing numbers from the entry.
 
