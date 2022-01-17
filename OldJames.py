@@ -48,13 +48,13 @@ engine.setProperty('rate', 175)
 
 os.system("cls")
 
-bot_name = "J.A.M.E.S."  # Just A More Entitled System
+bot_name = "C.O.L.E"  # Cannot Operate Like Expected
 
 botOnlineMessage = f"{bot_name} is online"
 
 print(botOnlineMessage)
 
-engine.say("JAMES is online")
+engine.say("COLE is online")
 engine.runAndWait()
 
 time.sleep(2)
@@ -68,25 +68,7 @@ while True:
 
     hasSpokenInCondition = False
 
-    print("You: ", end='')
-    try:
-        with sr.Microphone() as mic:
-            recogniser.adjust_for_ambient_noise(mic, duration=0.2)
-            audio = recogniser.listen(mic)
-
-            textOutput = recogniser.recognize_google(audio)
-            textOutput = textOutput.lower()
-            print(textOutput)
-    except:
-        botResponse = "I couldn\'t understand that. Try typing it in instead."
-
-        engine.say(botResponse)
-        engine.runAndWait()
-        hasSpokenInCondition = True
-
-        textOutput = input("\nTry typing it in instead. \nYou: ")
-
-    sentence = textOutput
+    sentence = input("You: ")
 
     originalSentence = sentence
 
