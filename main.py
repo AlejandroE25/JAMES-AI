@@ -80,13 +80,11 @@ while True:
     except:
         botResponse = "I couldn\'t understand that. Try typing it in instead."
 
-
-
         engine.say(botResponse)
         engine.runAndWait()
         hasSpokenInCondition = True
 
-        textOutput = input("Try typing it in instead. \nYou: ")
+        textOutput = input("\nTry typing it in instead. \nYou: ")
 
     sentence = textOutput
 
@@ -189,26 +187,14 @@ while True:
     else:
         query = originalSentence
 
-        url = f"https://google.com/search?q={query}"
-        r = requests.get(url)
-        data = BeautifulSoup(r.text, "html.parser")
-        result = data.find("div", class_="BNeawe").text
-        botResponse = result
-
-        # TODO: Fix Wiki and WolframAlpha queries.  Apparently, the word parser was removing numbers from the entry.
-
-        '''
         try:
-            wikiResult = wikipedia.summary(query, sentences=2)
-            wolframResult = next(wolframClient.query(query).results).text
-
-            botResponse = f"Wiki result: {wikiResult},\n Wolfram Result: {wolframResult}"
-        except wikipedia.exceptions.DisambiguationError:
-            botResponse = next(wolframClient.query(sentence).results).text
-        except wikipedia.exceptions.PageError:
             botResponse = next(wolframClient.query(query).results).text
         except:
-            botResponse = "I can't understand that"'''
+            url = f"https://google.com/search?q={query}"
+            r = requests.get(url)
+            data = BeautifulSoup(r.text, "html.parser")
+            result = data.find("div", class_="BNeawe").text
+            botResponse = result
 
     if not hasSpokenInCondition:
         print(f"{bot_name}: {botResponse}")
