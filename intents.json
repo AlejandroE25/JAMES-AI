@@ -1,24 +1,6 @@
 {
   "intents": [
     {
-      "tag": "greeting",
-      "patterns": [
-        "Hi",
-        "Hey",
-        "Hello",
-        "Good day",
-        "Good Morning",
-        "Good Afternoon",
-        "Good Evening"
-      ],
-      "responses": [
-        "Hey :-)",
-        "Hello, thanks for visiting",
-        "Hi there, what can I do for you?",
-        "Hi there, how can I help?"
-      ]
-    },
-    {
       "tag": "goodbye",
       "patterns": ["Bye", "See you later", "Goodbye"],
       "responses": [
@@ -97,11 +79,6 @@
       "tag": "follow up",
       "patterns": ["Do you want to talk about it?","are you sure?","You positive?"],
       "responses": ["It's all good", "It's fine"]
-    },
-    {
-      "tag": "Greet Stephan",
-      "patterns": ["Say hello to stephan","It's Stephan","Say hi to stephan","Say hello to Kruglov", "It's mister kruglov","It's stephan Kruglov","Say hello to stephan kruglov", "Greet Stephan","Greet Stephan Kruglov", "Greet Mr. Kruglov"],
-      "responses": ["Hi Stephan","Hey Stephan"]
     },
     {
       "tag": "delivery",
