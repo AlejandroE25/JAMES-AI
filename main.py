@@ -43,7 +43,7 @@ model.eval()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
-engine.setProperty('voice', voices[2].id)
+engine.setProperty('voice', voices[0].id)
 engine.setProperty('rate', 175)
 
 os.system("cls")
@@ -70,17 +70,21 @@ while True:
 
     hasSpokenInCondition = False
 
-    print("You: ", end='')
     try:
         with sr.Microphone() as mic:
-            recogniser.adjust_for_ambient_noise(mic, duration=0.2)
-            audio = recogniser.listen(mic)
+            print("Calibrating...")
+            recogniser.adjust_for_ambient_noise(mic, duration=1)
+            os.system("CLS")
+            print("You: ", end='')
+            audio = recogniser.listen(mic, 10)
 
             textOutput = recogniser.recognize_google(audio)
             textOutput = textOutput.lower()
             print(textOutput)
+    except sr.WaitTimeoutError:
+        textOutput = ""
     except:
-        botResponse = "I couldn\'t understand that. Try typing it in instead."
+        botResponse = "I couldn't understand that. Try typing it in instead."
 
         engine.say(botResponse)
         engine.runAndWait()
@@ -107,7 +111,8 @@ while True:
 
     if prob.item() > .50:
         for intent in intents['intents']:
-
+            if sentence == "":
+                botResponse = "Why so silent?"
             if tag == "quit":
                 botResponse = "Goodbye for now"
                 print(botResponse)

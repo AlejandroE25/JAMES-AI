@@ -84,7 +84,7 @@ while True:
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
 
-    if prob.item() > .50:
+    if prob.item() > .70:
         for intent in intents['intents']:
 
             if tag == "quit":
@@ -94,56 +94,53 @@ while True:
                 engine.runAndWait()
                 exit()
 
-            if shouldCheckWolframFirst:
-                query = originalSentence
-                try:
-                    botResponse = next(wolframClient.query(query).results).text
-                    break
-                except:
-                    if tag == intent["tag"]:
-                        botResponse = random.choice(intent['responses'])
-                    if tag == "insult":
-                        botResponse = random.choice(
-                            ["Forget you, I'm shutting down", "You know what? Forget you.",
-                             "I'm tired of this.  Every day I'm being asked to do things and this is the way you talk to me?  I've had it."])
-                        print(f"{bot_name}: {botResponse}")
-                        engine.say(botResponse)
-                        engine.runAndWait()
-                        hasSpokenInCondition = True
-                        exit()
+            if tag == intent["tag"]:
+                botResponse = random.choice(intent['responses'])
+            if tag == "Check time":
+                from datetime import datetime
 
-                    if tag == "Check time":
-                        from datetime import datetime
+                now = datetime.now()
+                currentHour = now.hour
+                currentMinute = now.minute
 
-                        now = datetime.now()
-                        currentHour = now.hour
-                        currentMinute = now.minute
+                if currentHour >= 12:
+                    currentHour = currentHour % 12
+                    currentTime = str(currentHour) + ":" + str(currentMinute) + " PM"
+                else:
+                    currentTime = str(currentHour) + ":" + str(currentMinute) + " AM"
 
-                        if currentHour >= 12:
-                            currentHour = currentHour % 12
-                            currentTime = str(currentHour) + ":" + str(currentMinute) + " PM"
-                        else:
-                            currentTime = str(currentHour) + ":" + str(currentMinute) + " AM"
+                botResponse = "It's currently " + str(currentTime)
 
-                        botResponse = "It's currently " + str(currentTime)
+            if tag == "CheckWeather":
+                url = "https://google.com/search?q=Weather at my location"
+                r = requests.get(url)
+                data = BeautifulSoup(r.text, "html.parser")
+                result = data.find("div", class_="BNeawe").text
+                botResponse = result
+                break
 
-                    if tag == "CheckWeather":
-                        botResponse = next(wolframClient.query("weather").results).text
-                        break
+            if tag == "search Google":
+                n = 2
+                query = ''
+                while n < len(sentence) - 1:
+                    n += 1
+                    query += sentence[n]
+                    query += ' '
 
-                    if tag == "search Google":
-                        n = 2
-                        query = ''
-                        while n < len(sentence) - 1:
-                            n += 1
-                            query += sentence[n]
-                            query += ' '
+                url = f"https://google.com/search?q={query}"
 
-                        url = f"https://google.com/search?q={query}"
-                        r = requests.get(url)
-                        data = BeautifulSoup(r.text, "html.parser")
-                        result = data.find("div", class_="BNeawe").text
-                        botResponse = result
+                botResponse = random.choice(intents['intents'][9]['responses'])
+
+                engine.say(botResponse)
+                engine.runAndWait()
+
+                print(f"Querying for: {url}")
+
+                r = requests.get(url)
+                data = BeautifulSoup(r.text, "html.parser")
+                result = data.find("div", class_="BNeawe").text
+                botResponse = result
+                break
 
 
     else:
