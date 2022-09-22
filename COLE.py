@@ -42,7 +42,7 @@ model.eval()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
-engine.setProperty('voice', voices[2].id)
+engine.setProperty('voice', voices[0].id)
 engine.setProperty('rate', 175)
 
 os.system("cls")
@@ -87,7 +87,7 @@ while True:
     if prob.item() > .70:
         for intent in intents['intents']:
 
-            if tag == "quit":
+            if tag == "quit" or tag == "goodbye":
                 botResponse = "Goodbye for now"
                 print(botResponse)
                 engine.say(botResponse)
@@ -96,12 +96,27 @@ while True:
 
             if tag == intent["tag"]:
                 botResponse = random.choice(intent['responses'])
+
+            if tag == "CheckDate":
+                from datetime import datetime
+
+                now = datetime.now()
+
+                month = now.month
+                day = now.day
+                year = now.year
+
+                botResponse = f"{month}/{day}/{year}"
+
             if tag == "Check time":
                 from datetime import datetime
 
                 now = datetime.now()
                 currentHour = now.hour
                 currentMinute = now.minute
+
+                if currentMinute < 10:
+                    currentMinute = "0" + str(currentMinute)
 
                 if currentHour >= 12:
                     currentHour = currentHour % 12

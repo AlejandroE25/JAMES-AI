@@ -10,45 +10,35 @@
       ]
     },
     {
+      "tag": "silence",
+      "patterns": [""],
+      "responses": [""]
+    },
+    {
+      "tag": "Wake Up",
+      "patterns": ["Hey, James", "James wake up", "james", "yo, james", "james, yo", "hey"],
+      "responses": ["Yes?", "Yeah?", "What's up?", "How can I help you?", "What can I do for you?"]
+    },
+    {
+      "tag": "CheckDate",
+      "patterns": ["What day is it?", "What's the date", "What is the date", "what is the current date", "What is the date today", "date"],
+      "responses": ["NotReq"]
+    },
+
+    {
       "tag": "Check time",
-      "patterns": ["What time is it?", "What is the current time?", "What is the time right now?","What is the time?"],
+      "patterns": ["What time is it?", "What is the current time?", "What is the time right now?","What is the time?", "time"],
       "responses": ["Will be overridden in the code anyway.  I really just need it to understand the question"]
     },
     {
       "tag": "CheckWeather",
-      "patterns": ["Check the weather", "What is the weather",  "What is the current weather", "What's the weather", "What's the temperature"],
+      "patterns": ["Check the weather", "What is the weather",  "What is the current weather", "What's the weather", "What's the temperature", "weather"],
       "responses": ["Once again leaving this alone because it will have a response in the code anyways"]
     },
     {
       "tag": "thanks",
       "patterns": ["Thanks", "Thank you", "That's helpful", "Thanks a lot!"],
       "responses": ["Happy to help!", "Any time!", "My pleasure"]
-    },
-    {
-      "tag": "items",
-      "patterns": [
-        "Which items do you have?",
-        "What kinds of items are there?",
-        "What do you sell?",
-        "What's available for purchase?"
-      ],
-      "responses": [
-        "We sell coffee and tea",
-        "We have coffee and tea"
-      ]
-    },
-    {
-      "tag": "payments",
-      "patterns": [
-        "Do you take credit cards?",
-        "Do you accept Mastercard?",
-        "Can I pay with Paypal?",
-        "Are you cash only?"
-      ],
-      "responses": [
-        "We accept VISA, Mastercard and Paypal",
-        "We accept most major credit cards, and Paypal"
-      ]
     },
     {
       "tag": "impression",
@@ -74,18 +64,6 @@
       "tag": "follow up",
       "patterns": ["Do you want to talk about it?","are you sure?","You positive?"],
       "responses": ["It's all good", "It's fine"]
-    },
-    {
-      "tag": "delivery",
-      "patterns": [
-        "How long does delivery take?",
-        "How long does shipping take?",
-        "When do I get my delivery?"
-      ],
-      "responses": [
-        "Delivery takes 2-4 days",
-        "Shipping takes 2-4 days"
-      ]
     },
     {
       "tag": "funny",

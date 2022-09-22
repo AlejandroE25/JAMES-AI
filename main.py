@@ -3,7 +3,6 @@ import os
 import random
 import time
 import webbrowser
-
 import pyttsx3
 import requests
 import speech_recognition as sr
@@ -48,8 +47,6 @@ engine.setProperty('rate', 175)
 
 os.system("cls")
 
-shouldCheckWolframFirst = True
-
 bot_name = "J.A.M.E.S."  # Just A More Entitled System
 
 botOnlineMessage = f"{bot_name} is online"
@@ -65,6 +62,8 @@ os.system("cls")
 
 recogniser = sr.Recognizer()
 
+hasSaidKeyWord = False
+
 while True:
     botResponse = ''
 
@@ -76,21 +75,21 @@ while True:
             recogniser.adjust_for_ambient_noise(mic, duration=1)
             os.system("CLS")
             print("You: ", end='')
-            audio = recogniser.listen(mic, 10)
+            audio = recogniser.listen(mic, 2)
 
-            textOutput = recogniser.recognize_google(audio)
+            textOutput = recogniser.recognize_houndify(audio, "QfvPyIr8VwJKynBIDHuYCA==", "AWA3XHDtcTBwiH5P7cBsqBWjf1-ufxsnzu0h-azroCwmjcjdE7I9IPemoHkDkaX9Qa4hs49Gful2cN55d-Mh5g==")
             textOutput = textOutput.lower()
             print(textOutput)
     except sr.WaitTimeoutError:
         textOutput = ""
-    except:
-        botResponse = "I couldn't understand that. Try typing it in instead."
-
-        engine.say(botResponse)
+    except Exception as exception:
+        botResponse = exception
+        print(exception)
+        engine.say(str(botResponse))
         engine.runAndWait()
         hasSpokenInCondition = True
 
-        textOutput = input("\nTry typing it in instead. \nYou: ")
+        textOutput = ""
 
     sentence = textOutput
 
@@ -109,78 +108,74 @@ while True:
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
 
-    if prob.item() > .50:
+    if prob.item() > .70:
         for intent in intents['intents']:
-            if sentence == "":
-                botResponse = "Why so silent?"
-            if tag == "quit":
-                botResponse = "Goodbye for now"
-                print(botResponse)
-                engine.say(botResponse)
-                engine.runAndWait()
-                exit()
 
-            if shouldCheckWolframFirst:
-                query = originalSentence
-                try:
-                    botResponse = next(wolframClient.query(query).results).text
+            if tag == "Wake Up" or hasSaidKeyWord:
+
+                hasSaidKeyWord = True
+
+                if tag == intent["tag"]:
+                    botResponse = random.choice(intent['responses'])
+
+                if tag == "quit":
+                    botResponse = "Goodbye for now"
+                    print(botResponse)
+                    engine.say(botResponse)
+                    engine.runAndWait()
+                    exit()
+
+                if tag == "Check time":
+                    from datetime import datetime
+
+                    now = datetime.now()
+                    currentHour = now.hour
+                    currentMinute = now.minute
+
+                    if currentHour >= 12:
+                        currentHour = currentHour % 12
+                        currentTime = str(currentHour) + ":" + str(currentMinute) + " PM"
+                    else:
+                        currentTime = str(currentHour) + ":" + str(currentMinute) + " AM"
+
+                    botResponse = "It's currently " + str(currentTime)
+
+                if tag == "CheckWeather":
+                    url = "https://google.com/search?q=Weather at my location"
+                    r = requests.get(url)
+                    data = BeautifulSoup(r.text, "html.parser")
+                    result = data.find("div", class_="BNeawe").text
+                    botResponse = result
                     break
-                except:
-                    if tag == intent["tag"]:
-                        botResponse = random.choice(intent['responses'])
-                    if tag == "insult":
-                        botResponse = random.choice(
-                            ["Forget you, I'm shutting down", "You know what? Forget you.",
-                             "I'm tired of this.  Every day I'm being asked to do things and this is the way you talk to me?  I've had it."])
-                        print(f"{bot_name}: {botResponse}")
-                        engine.say(botResponse)
-                        engine.runAndWait()
-                        hasSpokenInCondition = True
-                        exit()
 
-                    if tag == "Check time":
-                        from datetime import datetime
+                if tag == "thanks":
+                    botResponse = random.choice(intent["responses"])
+                    hasSaidKeyWord = False
 
-                        now = datetime.now()
-                        currentHour = now.hour
-                        currentMinute = now.minute
+                if tag == "search Google":
+                    n = 2
+                    query = ''
+                    while n < len(sentence) - 1:
+                        n += 1
+                        query += sentence[n]
+                        query += ' '
 
-                        if currentHour >= 12:
-                            currentHour = currentHour % 12
-                            currentTime = str(currentHour) + ":" + str(currentMinute) + " PM"
-                        else:
-                            currentTime = str(currentHour) + ":" + str(currentMinute) + " AM"
+                    url = f"https://google.com/search?q={query}"
 
-                        botResponse = "It's currently " + str(currentTime)
+                    botResponse = random.choice(intents['intents'][9]['responses'])
 
-                    if tag == "CheckWeather":
-                        botResponse = next(wolframClient.query("weather").results).text
-                        break
+                    engine.say(botResponse)
+                    engine.runAndWait()
 
-                    if tag == "search Google":
-                        n = 2
-                        query = ''
-                        while n < len(sentence) - 1:
-                            n += 1
-                            query += sentence[n]
-                            query += ' '
+                    print(f"Querying for: {url}")
 
-                        url = f"https://google.com/search?q={query}"
-                        r = requests.get(url)
-                        data = BeautifulSoup(r.text, "html.parser")
-                        result = data.find("div", class_="BNeawe").text
-                        botResponse = result
-
-    else:
-        query = originalSentence
-
-        url = f"https://google.com/search?q={query}"
-        r = requests.get(url)
-        data = BeautifulSoup(r.text, "html.parser")
-        result = data.find("div", class_="BNeawe").text
-        botResponse = result
+                    r = requests.get(url)
+                    data = BeautifulSoup(r.text, "html.parser")
+                    result = data.find("div", class_="BNeawe").text
+                    botResponse = result
+                    break
 
     if not hasSpokenInCondition:
-        print(f"{bot_name}: {botResponse}")
+        print(f"{bot_name}: {botResponse}.")
         engine.say(botResponse)
         engine.runAndWait()
